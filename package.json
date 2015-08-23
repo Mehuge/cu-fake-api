@@ -1,0 +1,42 @@
+{
+  "name": "cu-fake-api",
+  "version": "0.1.0",
+  "description": "Fake Client Library for Camelot Unchained",
+  "license": "MPL-2.0",
+  "main": "lib/main.js",
+  "contributors": [
+    "Mehuge <mehuge@sorcerer.co.uk>"
+  ],
+  "keywords": [
+    "Camelot",
+    "Unchained",
+    "cu",
+    "cu-ui",
+    "cu-fake-api"
+  ],
+  "files": [
+    "lib/",
+    "package.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "del": "^1.2.1",
+    "dts-bundle": "^0.3.0",
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-debug": "^2.1.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.5.4",
+    "gulp-sequence": "^0.4.1",
+    "gulp-typescript": "^2.8.1",
+    "gulp-uglify": "^1.2.0",
+    "gulp-watch": "^4.3.5",
+    "merge2": "^0.3.6",
+    "typescript": "^1.6.0-dev.20150820"
+  },
+  "typescript": {
+    "definition": "./lib/main.d.ts"
+  }
+}
