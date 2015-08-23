@@ -31,7 +31,7 @@ function javascript() {
 
 function types() {
   gulp.src('./src/main.d.ts')
-      .pipe(concat('main.d.ts'))
+      .pipe(concat(options.name + '.d.ts'))
       .pipe(gulp.dest('./lib'))
       .pipe(debug({ title: 'output:' }));
 }

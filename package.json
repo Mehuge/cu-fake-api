@@ -37,6 +37,6 @@
     "typescript": "^1.6.0-dev.20150820"
   },
   "typescript": {
-    "definition": "./lib/main.d.ts"
+    "definition": "./lib/cu-fake-api.d.ts"
   }
 }
