@@ -11,7 +11,9 @@ This module can be imported into UI code to emulate the cuAPI in absense of a re
 Installation
 ============
 
-> npm install git+https://github.com/Mehuge/cu-fake-api.git#master
+```
+npm install git+https://github.com/Mehuge/cu-fake-api.git#master
+```
 
 Usage
 =====
