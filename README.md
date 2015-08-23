@@ -2,8 +2,7 @@ cu-fake-api
 ======================
 > Fake API for Camelot Unchained
 
----
-*Notice: This library is incomplete, but is being expanded all the time.  Feel free to submit PRs with updates that expand its capabilities*
+> *Notice: This library is incomplete, but is being expanded all the time.  Feel free to submit PRs with updates that expand its capabilities*
 
 Overview
 ========
@@ -20,14 +19,20 @@ Usage
 TypeScript / ES6
 ----------------
 
-> import * as cuAPI from 'cu-fake-api';
+```javascript
+import * as cuAPI from 'cu-fake-api';
+```
 
 JavaScript (Node)
 -----------------
 
-> var cuAPI = require('cu-fake-api');
+```javascript
+var cuAPI = require('cu-fake-api');
+```
 
 JavaScript (Raw)
 ----------------
 
-> <script src="cu-fake-api/lib/main.js"></script>
+```html
+<script src="cu-fake-api/lib/main.js"></script>
+```
