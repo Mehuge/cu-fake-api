@@ -202,6 +202,11 @@ var CUFakeGameAPI = (function () {
                 cuAPI._evf("OnUpdateNameplate", [cell, colorMod, name, gtag, title]);
             }
         }
+        function _announcementTick(tick) {
+            if (tick % 100 === 0) {
+                cuAPI._evf("OnAnnouncement", [ "Announcement tick " + tick, 0 ]);
+            }
+        }
         function _tick() {
             var tick = Date.now();
             // emulation tick, here we will simulate the live environment (as much as we can) in the UI.
@@ -210,6 +215,7 @@ var CUFakeGameAPI = (function () {
             _playerTick(tick, "Target", cuAPI._target);
             _playerTick(tick, "FriendlyTarget", cuAPI._friendly);
             _nameplateTick(tick);
+            _announcementTick(tick);
         }
         setInterval(_tick, 100);
         return setTimeout(function () {
@@ -400,7 +406,8 @@ var CUFakeGameAPI = (function () {
     };
     /* Announcement */
     CUFakeGameAPI.prototype.OnAnnouncement = function (c) {
-        this._ev("OnAnnouncement", c);
+        var id = "OnAnnouncement";
+        this._ev(id, c);
     };
     /* Character */
     CUFakeGameAPI.prototype.OnCharacterIDChanged = function (c) {
