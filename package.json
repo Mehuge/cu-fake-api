@@ -1,6 +1,6 @@
 {
   "name": "cu-fake-api",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Fake Client Library for Camelot Unchained",
   "license": "MPL-2.0",
   "main": "lib/main.js",
