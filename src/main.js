@@ -613,7 +613,7 @@ var CUFakeGameAPI = (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(CUFakeGameAPI.prototype, "location", {
+    Object.defineProperty(CUFakeGameAPI.prototype, "locationZ", {
         get: function () {
             return 0;
         },
