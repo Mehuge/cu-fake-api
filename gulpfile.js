@@ -43,4 +43,5 @@ function clean(cb) {
 gulp.task('clean', clean);
 gulp.task('javascript', ['clean'], javascript);
 gulp.task('types', ['clean'], types);
-gulp.task('default', [ 'javascript', 'types', 'clean' ]);
+gulp.task('publish', [ 'javascript', 'types', 'clean' ]);
+gulp.task('default', [ 'publish' ]);
