@@ -45,3 +45,4 @@ gulp.task('javascript', ['clean'], javascript);
 gulp.task('types', ['clean'], types);
 gulp.task('publish', [ 'javascript', 'types', 'clean' ]);
 gulp.task('default', [ 'publish' ]);
+gulp.task('install');
