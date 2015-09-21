@@ -35,16 +35,23 @@ var CUFakeGameAPI = (function () {
         this._buildingMode = false;
         // simulate character/player data
         this._character = {
-            name: undefined, 
-            race: undefined, 
-            faction: undefined, 
+            name: undefined,
+            race: undefined,
+            faction: undefined,
             id: undefined,
             hpTouched: Date.now(),
             hp: 100,
             maxHP: 100,
             staminaTouched: Date.now(),
             stamina: 0,
-            maxStamina: 100
+            maxStamina: 100,
+            injuriesTouched: Date.now(),
+            injuries: [
+                /* health, max, wounds */
+                { health: 100, maxHealth: 100, wounds: 0 },
+                { health: 100, maxHealth: 100, wounds: 0 },
+                { health: 100, maxHealth: 100, wounds: 0 },
+            ]
         };
         this._target = {
             name: undefined,
@@ -54,7 +61,14 @@ var CUFakeGameAPI = (function () {
             maxHP: 100,
             staminaTouched: Date.now(),
             stamina: 0,
-            maxStamina: 100
+            maxStamina: 100,
+            injuriesTouched: Date.now(),
+            injuries: [
+                /* health, max, wounds */
+                { health: 100, maxHealth: 100, wounds: 0 },
+                { health: 100, maxHealth: 100, wounds: 0 },
+                { health: 100, maxHealth: 100, wounds: 0 },
+            ]
         };
         this._friendly = {
             name: undefined,
@@ -64,7 +78,14 @@ var CUFakeGameAPI = (function () {
             maxHP: 100,
             staminaTouched: Date.now(),
             stamina: 0,
-            maxStamina: 100
+            maxStamina: 100,
+            injuriesTouched: Date.now(),
+            injuries: [
+                /* health, max, wounds */
+                { health: 100, maxHealth: 100, wounds: 0 },
+                { health: 100, maxHealth: 100, wounds: 0 },
+                { health: 100, maxHealth: 100, wounds: 0 },
+            ]
         };
         this._init();
     }
@@ -191,6 +212,33 @@ var CUFakeGameAPI = (function () {
                     cuAPI._evf("On" + cls + "StaminaChanged", [_player.stamina, _player.maxStamina]);
                 }
             }
+            // Character injuries emulation.  Again only change this every 0.5s - 1s
+            if (tick - _player.injuriesTouched >= cuAPI.rand(500) + 500) {
+                var i = cuAPI.rand(_player.injuries.length);
+                _player.injuriesTouched = tick;
+                var injury = _player.injuries[i];
+                injury.wounds = cuAPI.rand(5);
+                if (injury.wounds <= 0) {
+                    injury.wounds = 0;
+                    injury.health = injury.maxHealth;
+                } else {
+                    if (injury.health > 0 && cuAPI.rand(10) < 5) {
+                        // take a hit
+                        injury.health -= cuAPI.rand(30);
+                        if (injury.health < 0) injury.health = 0;
+                    } else {
+                        if (cuAPI.rand(5) > 3) {
+                            injury.health += cuAPI.rand(30);
+                        } else {
+                            injury.health += 1;
+                        }
+                        if (injury.health > injury.maxHealth) {
+                            injury.health = injury.maxHealth;
+                        }
+                    }
+                }
+                cuAPI._evf("On" + cls + "InjuriesChanged", [i, injury.health, injury.maxHealth, injury.wounds]);
+            }
         }
         function _nameplateTick(tick) {
             if (tick % 5 === 0) {
@@ -212,7 +260,7 @@ var CUFakeGameAPI = (function () {
             // emulation tick, here we will simulate the live environment (as much as we can) in the UI.
             // We will adjust HP, targets etc.
             _playerTick(tick, "Character", cuAPI._character);
-            _playerTick(tick, "Target", cuAPI._target);
+            _playerTick(tick, "EnemyTarget", cuAPI._target);
             _playerTick(tick, "FriendlyTarget", cuAPI._friendly);
             _nameplateTick(tick);
             _announcementTick(tick);
@@ -464,6 +512,12 @@ var CUFakeGameAPI = (function () {
         this._evf(id, [this._character.stamina, this._character.maxStamina]);
     };
     CUFakeGameAPI.prototype.OnCharacterEffectsChanged = function (c) { };
+    CUFakeGameAPI.prototype.OnCharacterInjuriesChanged = function (callback) {
+        var id = "OnCharacterInjuriesChanged";
+        this._ev(id, callback);
+        this._evf(id, [0, 100, 100, 0]);
+        this._evf(id, [1, 100, 100, 0]);
+    };
     /* Enemy Target */
     CUFakeGameAPI.prototype.OnEnemyTargetNameChanged = function (callback) {
         var id = "OnTargetNameChanged";
@@ -483,6 +537,12 @@ var CUFakeGameAPI = (function () {
         this._evf(id, [this._target.stamina, this._target.maxStamina]);
     };
     CUFakeGameAPI.prototype.OnEnemyTargetEffectsChanged = function (callback) { };
+    CUFakeGameAPI.prototype.OnEnemyTargetInjuriesChanged = function (callback) {
+        var id = "OnEnemyTargetInjuriesChanged";
+        this._ev(id, callback);
+        this._evf(id, [0, 100, 100, 0]);
+        this._evf(id, [1, 100, 100, 0]);
+    };
     /* Friendly Target */
     CUFakeGameAPI.prototype.OnFriendlyTargetNameChanged = function (callback) {
         var id = "OnFriendlytTargetNameChanged";
@@ -502,6 +562,12 @@ var CUFakeGameAPI = (function () {
         this._evf(id, [this._friendly.stamina, this._friendly.maxStamina]);
     };
     CUFakeGameAPI.prototype.OnFriendlyTargetEffectsChanged = function (callback) { };
+    CUFakeGameAPI.prototype.OnFriendlyTargetInjuriesChanged = function (callback) {
+        var id = "OnFriendlyTargetInjuriesChanged";
+        this._ev(id, callback);
+        this._evf(id, [0, 100, 100, 0]);
+        this._evf(id, [1, 100, 100, 0]);
+    };
     /* Chat */
     CUFakeGameAPI.prototype.OnBeginChat = function (c) {
         this._ev("OnBeginChat", c);
@@ -661,4 +727,4 @@ if (typeof cuAPI === "undefined") {
 
 if (typeof module !== "undefined") {
     module.exports = window["cuAPI"];
-} 
+}
